@@ -1,0 +1,12 @@
+D:\SajorProject\SajorIPT101Solution\SajorDomain\bin\Debug\net9.0\SajorDomain.deps.json
+D:\SajorProject\SajorIPT101Solution\SajorDomain\bin\Debug\net9.0\SajorDomain.dll
+D:\SajorProject\SajorIPT101Solution\SajorDomain\bin\Debug\net9.0\SajorDomain.pdb
+D:\SajorProject\SajorIPT101Solution\SajorDomain\obj\Debug\net9.0\SajorDomain.GeneratedMSBuildEditorConfig.editorconfig
+D:\SajorProject\SajorIPT101Solution\SajorDomain\obj\Debug\net9.0\SajorDomain.AssemblyInfoInputs.cache
+D:\SajorProject\SajorIPT101Solution\SajorDomain\obj\Debug\net9.0\SajorDomain.AssemblyInfo.cs
+D:\SajorProject\SajorIPT101Solution\SajorDomain\obj\Debug\net9.0\SajorDomain.csproj.CoreCompileInputs.cache
+D:\SajorProject\SajorIPT101Solution\SajorDomain\obj\Debug\net9.0\SajorDomain.sourcelink.json
+D:\SajorProject\SajorIPT101Solution\SajorDomain\obj\Debug\net9.0\SajorDomain.dll
+D:\SajorProject\SajorIPT101Solution\SajorDomain\obj\Debug\net9.0\refint\SajorDomain.dll
+D:\SajorProject\SajorIPT101Solution\SajorDomain\obj\Debug\net9.0\SajorDomain.pdb
+D:\SajorProject\SajorIPT101Solution\SajorDomain\obj\Debug\net9.0\ref\SajorDomain.dll
