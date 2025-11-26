@@ -28,7 +28,10 @@ jobs:
       run: dotnet publish FormyBabi/FormyBabi.csproj -c Release -o release --nologo
     
     - name: Change base-tag in index.html
-      run: sed -i 's/<base href="\/" \/>/<base href="\/SajorIPT\/" \/>/g' release/wwwroot/index.html
+      run: |
+        if [ -f release/wwwroot/index.html ]; then
+          sed -i 's/<base href="\/" \/>/<base href="\/SajorIPT\/" \/>/g' release/wwwroot/index.html
+        fi
     
     - name: Add .nojekyll file
       run: touch release/wwwroot/.nojekyll
