@@ -5,9 +5,17 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
     - uses: actions/checkout@v3
     
@@ -20,12 +28,16 @@ jobs:
       run: dotnet publish FormyBabi/FormyBabi.csproj -c Release -o release --nologo
     
     - name: Change base-tag in index.html
-      run: sed -i 's/<base href="\/" \/>/<base href="\/FormyBabi\/" \/>/g' release/wwwroot/index.html
+      run: sed -i 's/<base href="\/" \/>/<base href="\/SajorIPT\/" \/>/g' release/wwwroot/index.html
     
     - name: Add .nojekyll file
       run: touch release/wwwroot/.nojekyll
       
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
       with:
-        folder: release/wwwroot
+        path: release/wwwroot
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
