@@ -1,0 +1,137 @@
+@page "/countdown"
+@implements IDisposable
+@rendermode InteractiveServer
+
+<PageTitle>Our Countdown ⏰</PageTitle>
+
+<div class="page-container">
+    <div class="page-header">
+        <a href="/" class="btn-back">← Back</a>
+        <h1>⏰ Anniversary Countdown</h1>
+    </div>
+
+    <div class="countdown-container">
+        <div class="countdown-card">
+            <h2>💕 Days Together 💕</h2>
+            <div class="countdown-display">
+                <div class="countdown-number">@daysTogether</div>
+                <div class="countdown-label">Days of Love</div>
+            </div>
+        </div>
+
+        <div class="countdown-card">
+            <h2>🎉 Next Anniversary 🎉</h2>
+            <div class="countdown-grid">
+                <div class="countdown-item">
+                    <div class="countdown-number">@daysUntil</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number">@hoursUntil</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number">@minutesUntil</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number">@secondsUntil</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+            <p class="anniversary-date">@nextAnniversary.ToString("MMMM dd, yyyy")</p>
+        </div>
+
+        <div class="milestone-card">
+            <h3>✨ Milestones ✨</h3>
+            <div class="milestones">
+                @foreach (var milestone in milestones)
+                {
+                    <div class="milestone @(milestone.Reached ? "reached" : "")">
+                        <span class="milestone-icon">@milestone.Icon</span>
+                        <span class="milestone-text">@milestone.Text</span>
+                        @if (milestone.Reached)
+                        {
+                            <span class="milestone-check">✓</span>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private DateTime relationshipStart = new DateTime(2025, 1, 14); // Our Anniversary! 💕
+    private DateTime nextAnniversary;
+    private int daysTogether;
+    private int daysUntil;
+    private int hoursUntil;
+    private int minutesUntil;
+    private int secondsUntil;
+    private Timer? timer;
+
+    private List<Milestone> milestones = new();
+
+    protected override void OnInitialized()
+    {
+        CalculateNextAnniversary();
+        UpdateCountdown();
+        CalculateMilestones();
+        
+        timer = new Timer(_ => 
+        {
+            UpdateCountdown();
+            InvokeAsync(StateHasChanged);
+        }, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+    }
+
+    private void CalculateNextAnniversary()
+    {
+        var today = DateTime.Now;
+        nextAnniversary = new DateTime(today.Year, relationshipStart.Month, relationshipStart.Day);
+        
+        if (nextAnniversary < today)
+        {
+            nextAnniversary = nextAnniversary.AddYears(1);
+        }
+    }
+
+    private void UpdateCountdown()
+    {
+        var now = DateTime.Now;
+        daysTogether = (now - relationshipStart).Days;
+        
+        var timeUntil = nextAnniversary - now;
+        daysUntil = timeUntil.Days;
+        hoursUntil = timeUntil.Hours;
+        minutesUntil = timeUntil.Minutes;
+        secondsUntil = timeUntil.Seconds;
+    }
+
+    private void CalculateMilestones()
+    {
+        milestones = new List<Milestone>
+        {
+            new Milestone { Days = 30, Text = "1 Month Together", Icon = "🌙", Reached = daysTogether >= 30 },
+            new Milestone { Days = 100, Text = "100 Days of Love", Icon = "💯", Reached = daysTogether >= 100 },
+            new Milestone { Days = 180, Text = "Half a Year", Icon = "⭐", Reached = daysTogether >= 180 },
+            new Milestone { Days = 365, Text = "1 Year Anniversary", Icon = "🎊", Reached = daysTogether >= 365 },
+            new Milestone { Days = 500, Text = "500 Days Strong", Icon = "💪", Reached = daysTogether >= 500 },
+            new Milestone { Days = 730, Text = "2 Years Together", Icon = "💑", Reached = daysTogether >= 730 }
+        };
+    }
+
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+
+    private class Milestone
+    {
+        public int Days { get; set; }
+        public string Text { get; set; } = string.Empty;
+        public string Icon { get; set; } = string.Empty;
+        public bool Reached { get; set; }
+    }
+}

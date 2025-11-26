@@ -1,0 +1,515 @@
+:root {
+    --primary-pink: #FFB6C1;
+    --soft-peach: #FFDAB9;
+    --light-pink: #FFF0F5;
+    --rose: #FF69B4;
+    --white: #FFFFFF;
+    --text-dark: #4A4A4A;
+    --shadow: rgba(255, 182, 193, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--light-pink) 0%, var(--soft-peach) 100%);
+    min-height: 100vh;
+    color: var(--text-dark);
+}
+
+/* Home Page Styles */
+.home-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.heart-animation {
+    animation: heartbeat 1.5s ease-in-out infinite;
+    font-size: 4rem;
+    margin: 2rem 0;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.girlfriend-name {
+    font-size: 2.5rem;
+    color: var(--rose);
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px var(--shadow);
+}
+
+.daily-message-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 8px 20px var(--shadow);
+}
+
+.daily-message-card h3 {
+    color: var(--rose);
+    margin-bottom: 1rem;
+}
+
+.daily-message {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin: 1rem 0;
+}
+
+.btn-refresh {
+    background: linear-gradient(135deg, var(--primary-pink), var(--rose));
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.2s;
+}
+
+.btn-refresh:hover {
+    transform: scale(1.05);
+}
+
+.surprise-section {
+    margin: 3rem 0;
+}
+
+.btn-surprise {
+    background: linear-gradient(135deg, var(--rose), #FF1493);
+    color: white;
+    border: none;
+    padding: 1.5rem 3rem;
+    border-radius: 50px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 0 8px 20px var(--shadow);
+    transition: all 0.3s;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 8px 20px var(--shadow); }
+    50% { box-shadow: 0 8px 30px rgba(255, 20, 147, 0.5); }
+}
+
+.btn-surprise:hover {
+    transform: translateY(-5px);
+}
+
+.surprise-message {
+    margin-top: 2rem;
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 20px;
+    font-size: 1.3rem;
+    color: var(--rose);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.5s;
+}
+
+.surprise-message.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.quick-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+
+.quick-link {
+    background: var(--white);
+    padding: 2rem 1rem;
+    border-radius: 20px;
+    text-decoration: none;
+    color: var(--text-dark);
+    box-shadow: 0 4px 15px var(--shadow);
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.quick-link:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px var(--shadow);
+}
+
+.quick-link .icon {
+    font-size: 3rem;
+}
+
+/* Page Container */
+.page-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    color: var(--rose);
+    font-size: 2rem;
+}
+
+.btn-back {
+    background: var(--white);
+    color: var(--rose);
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.btn-back:hover {
+    background: var(--primary-pink);
+    color: white;
+}
+
+/* Love Letters */
+.letters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.letter-card {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px var(--shadow);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.letter-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadow);
+}
+
+.letter-card h3 {
+    color: var(--rose);
+    margin-bottom: 0.5rem;
+}
+
+.letter-date {
+    color: #999;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.letter-preview {
+    line-height: 1.6;
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--white);
+    padding: 3rem;
+    border-radius: 20px;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.btn-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--text-dark);
+}
+
+.letter-content p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+    white-space: pre-wrap;
+}
+
+/* Memories Timeline */
+.memories-timeline {
+    margin-top: 2rem;
+}
+
+.memory-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px var(--shadow);
+    position: relative;
+}
+
+.memory-date {
+    margin-bottom: 1rem;
+}
+
+.date-badge {
+    background: linear-gradient(135deg, var(--primary-pink), var(--rose));
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.memory-content h3 {
+    color: var(--rose);
+    margin-bottom: 1rem;
+}
+
+.memory-content p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.memory-image img {
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 1rem;
+}
+
+.btn-delete {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.btn-delete:hover {
+    opacity: 1;
+}
+
+/* Countdown */
+.countdown-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.countdown-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px var(--shadow);
+    text-align: center;
+}
+
+.countdown-card h2 {
+    color: var(--rose);
+    margin-bottom: 1.5rem;
+}
+
+.countdown-display {
+    margin: 2rem 0;
+}
+
+.countdown-number {
+    font-size: 4rem;
+    font-weight: bold;
+    color: var(--rose);
+}
+
+.countdown-label {
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    margin-top: 0.5rem;
+}
+
+.countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.countdown-item {
+    padding: 1rem;
+}
+
+.anniversary-date {
+    color: var(--rose);
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}
+
+.milestone-card {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+.milestone-card h3 {
+    color: var(--rose);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.milestones {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.milestone {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--light-pink);
+    border-radius: 10px;
+    opacity: 0.5;
+}
+
+.milestone.reached {
+    opacity: 1;
+    background: linear-gradient(135deg, var(--primary-pink), var(--soft-peach));
+}
+
+.milestone-icon {
+    font-size: 2rem;
+}
+
+.milestone-text {
+    flex: 1;
+}
+
+.milestone-check {
+    color: green;
+    font-size: 1.5rem;
+}
+
+/* Forms */
+.letter-form, .memory-form {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+.input-field, .textarea-field {
+    width: 100%;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border: 2px solid var(--primary-pink);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+.textarea-field {
+    resize: vertical;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-pink), var(--rose));
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.2s;
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background: var(--light-pink);
+    color: var(--text-dark);
+    border: 2px solid var(--primary-pink);
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background: var(--primary-pink);
+    color: white;
+}
+
+.btn-add {
+    background: linear-gradient(135deg, var(--primary-pink), var(--rose));
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    transition: transform 0.2s;
+}
+
+.btn-add:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .girlfriend-name {
+        font-size: 2rem;
+    }
+    
+    .countdown-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .modal-content {
+        margin: 1rem;
+        padding: 2rem;
+    }
+}

@@ -1,0 +1,97 @@
+@page "/memories"
+@inject MemoryService MemoryService
+@rendermode InteractiveServer
+
+<PageTitle>Your Picture 📸</PageTitle>
+
+<div class="page-container">
+    <div class="page-header">
+        <a href="/" class="btn-back">← Back</a>
+        <h1>📸 Your Picture</h1>
+    </div>
+
+    @if (showAddForm)
+    {
+        <div class="memory-form">
+            <h3>Add a New Memory ✨</h3>
+            <input type="text" @bind="newTitle" placeholder="Memory Title" class="input-field" />
+            <textarea @bind="newContent" placeholder="Describe this special moment..." rows="5" class="textarea-field"></textarea>
+            <input type="date" @bind="newDate" class="input-field" />
+            <div class="form-buttons">
+                <button class="btn-primary" @onclick="SaveMemory">Save Memory 💕</button>
+                <button class="btn-secondary" @onclick="CancelAdd">Cancel</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <button class="btn-add" @onclick="() => showAddForm = true">+ Add New Memory</button>
+    }
+
+    <div class="memories-timeline">
+        @foreach (var memory in memories)
+        {
+            <div class="memory-card">
+                <div class="memory-date">
+                    <span class="date-badge">@memory.Date.ToString("MMM dd, yyyy")</span>
+                </div>
+                <div class="memory-content">
+                    <h3>@memory.Title</h3>
+                    <p>@memory.Content</p>
+                    @if (!string.IsNullOrEmpty(memory.ImagePath))
+                    {
+                        <div class="memory-image">
+                            <img src="@memory.ImagePath" alt="@memory.Title" />
+                        </div>
+                    }
+                </div>
+                <button class="btn-delete" @onclick="() => DeleteMemory(memory.Id)">🗑️</button>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private List<Memory> memories = new();
+    private bool showAddForm = false;
+    private string newTitle = string.Empty;
+    private string newContent = string.Empty;
+    private DateTime newDate = DateTime.Now;
+
+    protected override void OnInitialized()
+    {
+        memories = MemoryService.GetAllMemories();
+    }
+
+    private void SaveMemory()
+    {
+        if (!string.IsNullOrWhiteSpace(newTitle) && !string.IsNullOrWhiteSpace(newContent))
+        {
+            MemoryService.AddMemory(new Memory 
+            { 
+                Title = newTitle, 
+                Content = newContent, 
+                Date = newDate 
+            });
+            memories = MemoryService.GetAllMemories();
+            newTitle = string.Empty;
+            newContent = string.Empty;
+            newDate = DateTime.Now;
+            showAddForm = false;
+        }
+    }
+
+    private void CancelAdd()
+    {
+        showAddForm = false;
+        newTitle = string.Empty;
+        newContent = string.Empty;
+        newDate = DateTime.Now;
+    }
+
+    private void DeleteMemory(int id)
+    {
+        MemoryService.DeleteMemory(id);
+        memories = MemoryService.GetAllMemories();
+    }
+}

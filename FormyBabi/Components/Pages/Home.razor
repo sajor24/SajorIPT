@@ -1,0 +1,79 @@
+﻿@page "/"
+@inject MessageService MessageService
+@rendermode InteractiveServer
+
+<PageTitle>For My Love 💕</PageTitle>
+
+<div class="home-container">
+    <div class="heart-animation">
+        <span class="heart">💖</span>
+    </div>
+    
+    <h1 class="girlfriend-name">For My Love Mami 💕</h1>
+    
+    <div class="daily-message-card">
+        <h3>💌 Today's Message</h3>
+        <p class="daily-message">@dailyMessage</p>
+        <button class="btn-refresh" @onclick="RefreshDailyMessage">Get New Message ✨</button>
+    </div>
+
+    <div class="surprise-section">
+        <button class="btn-surprise" @onclick="ShowSurprise">
+            ✨ Tap for a Surprise ✨
+        </button>
+        
+        @if (!string.IsNullOrEmpty(surpriseMessage))
+        {
+            <div class="surprise-message @(showSurprise ? "show" : "")">
+                <p>@surpriseMessage</p>
+            </div>
+        }
+    </div>
+
+    <div class="quick-links">
+        <a href="/letters" class="quick-link">
+            <span class="icon">💌</span>
+            <span>Love Letters</span>
+        </a>
+        <a href="/memories" class="quick-link">
+            <span class="icon">📸</span>
+            <span>Your Picture</span>
+        </a>
+        <a href="/countdown" class="quick-link">
+            <span class="icon">⏰</span>
+            <span>Countdown</span>
+        </a>
+        <a href="/settings" class="quick-link">
+            <span class="icon">⚙️</span>
+            <span>Settings</span>
+        </a>
+    </div>
+</div>
+
+@code {
+    private string dailyMessage = string.Empty;
+    private string surpriseMessage = string.Empty;
+    private bool showSurprise = false;
+
+    protected override void OnInitialized()
+    {
+        dailyMessage = MessageService.GetDailyMessage();
+    }
+
+    private void RefreshDailyMessage()
+    {
+        dailyMessage = MessageService.GetDailyMessage();
+    }
+
+    private void ShowSurprise()
+    {
+        surpriseMessage = MessageService.GetRandomSurprise();
+        showSurprise = true;
+        
+        Task.Delay(3000).ContinueWith(_ => 
+        {
+            showSurprise = false;
+            InvokeAsync(StateHasChanged);
+        });
+    }
+}

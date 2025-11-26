@@ -1,0 +1,105 @@
+@page "/letters"
+@inject LoveLetterService LetterService
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+<PageTitle>Love Letters 💌</PageTitle>
+
+<div class="page-container">
+    <div class="page-header">
+        <a href="/" class="btn-back">← Back</a>
+        <h1>💌 Love Letters</h1>
+    </div>
+
+    @if (showAddForm)
+    {
+        <div class="letter-form">
+            <h3>Write a New Letter ✍️</h3>
+            <input type="text" @bind="newTitle" placeholder="Letter Title" class="input-field" />
+            <textarea @bind="newContent" placeholder="Pour your heart out..." rows="10" class="textarea-field"></textarea>
+            <div class="form-buttons">
+                <button class="btn-primary" @onclick="SaveLetter">Save Letter 💕</button>
+                <button class="btn-secondary" @onclick="CancelAdd">Cancel</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <button class="btn-add" @onclick="() => showAddForm = true">+ Write New Letter</button>
+    }
+
+    <div class="letters-grid">
+        @foreach (var letter in letters)
+        {
+            <div class="letter-card" @onclick="() => SelectLetter(letter.Id)">
+                <h3>@letter.Title</h3>
+                <p class="letter-date">@letter.DateWritten.ToString("MMMM dd, yyyy")</p>
+                <p class="letter-preview">@GetPreview(letter.Content)</p>
+            </div>
+        }
+    </div>
+
+    @if (selectedLetter != null)
+    {
+        <div class="modal" @onclick="CloseModal">
+            <div class="modal-content" @onclick:stopPropagation="true">
+                <button class="btn-close" @onclick="CloseModal">×</button>
+                <h2>@selectedLetter.Title</h2>
+                <p class="letter-date">@selectedLetter.DateWritten.ToString("MMMM dd, yyyy")</p>
+                <div class="letter-content">
+                    @foreach (var paragraph in selectedLetter.Content.Split("\n\n"))
+                    {
+                        <p>@paragraph</p>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<LoveLetter> letters = new();
+    private LoveLetter? selectedLetter;
+    private bool showAddForm = false;
+    private string newTitle = string.Empty;
+    private string newContent = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        letters = LetterService.GetAllLetters();
+    }
+
+    private void SelectLetter(int id)
+    {
+        selectedLetter = LetterService.GetLetter(id);
+    }
+
+    private void CloseModal()
+    {
+        selectedLetter = null;
+    }
+
+    private string GetPreview(string content)
+    {
+        return content.Length > 100 ? content.Substring(0, 100) + "..." : content;
+    }
+
+    private void SaveLetter()
+    {
+        if (!string.IsNullOrWhiteSpace(newTitle) && !string.IsNullOrWhiteSpace(newContent))
+        {
+            LetterService.AddLetter(new LoveLetter { Title = newTitle, Content = newContent });
+            letters = LetterService.GetAllLetters();
+            newTitle = string.Empty;
+            newContent = string.Empty;
+            showAddForm = false;
+        }
+    }
+
+    private void CancelAdd()
+    {
+        showAddForm = false;
+        newTitle = string.Empty;
+        newContent = string.Empty;
+    }
+}

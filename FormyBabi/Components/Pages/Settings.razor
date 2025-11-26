@@ -1,0 +1,178 @@
+@page "/settings"
+@rendermode InteractiveServer
+
+<PageTitle>Settings ⚙️</PageTitle>
+
+<div class="page-container">
+    <div class="page-header">
+        <a href="/" class="btn-back">← Back</a>
+        <h1>⚙️ Settings</h1>
+    </div>
+
+    <div class="settings-card">
+        <h3>🎵 Background Music</h3>
+        <p>Add a romantic song to play in the background</p>
+        <div class="setting-item">
+            <label class="toggle-label">
+                <input type="checkbox" @bind="musicEnabled" @bind:after="ToggleMusic" />
+                <span class="toggle-slider"></span>
+                <span class="toggle-text">@(musicEnabled ? "Music On" : "Music Off")</span>
+            </label>
+        </div>
+        
+        @if (musicEnabled)
+        {
+            <div class="music-info">
+                <p>💡 Current song: "Beautiful in White"</p>
+                <p>To change the music:</p>
+                <ol>
+                    <li>Add an MP3 file to <code>wwwroot/music/</code></li>
+                    <li>Name it <code>beautiful-in-white.mp3</code></li>
+                    <li>Refresh the page</li>
+                </ol>
+            </div>
+        }
+    </div>
+
+    <div class="settings-card">
+        <h3>🎨 Personalization</h3>
+        <p>Customize the app for your girlfriend</p>
+        <div class="info-box">
+            <p><strong>Her Name:</strong> Ruthy Mae Lastra 💕</p>
+            <p><strong>Anniversary Date:</strong> Edit in Countdown.razor</p>
+            <p><strong>Colors:</strong> Edit in app.css</p>
+        </div>
+    </div>
+
+    <div class="settings-card">
+        <h3>📸 Photos</h3>
+        <p>Add your special photos</p>
+        <div class="info-box">
+            <p>Place photos in: <code>wwwroot/photos/</code></p>
+            <p>Reference as: <code>/photos/yourphoto.jpg</code></p>
+        </div>
+    </div>
+
+    <div class="settings-card">
+        <h3>💝 About This App</h3>
+        <p>Made with love using Blazor 💕</p>
+        <p class="version">Version 1.0</p>
+    </div>
+</div>
+
+<style>
+    .settings-card {
+        background: var(--white);
+        padding: 2rem;
+        border-radius: 20px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 15px var(--shadow);
+    }
+
+    .settings-card h3 {
+        color: var(--rose);
+        margin-bottom: 1rem;
+    }
+
+    .setting-item {
+        margin: 1.5rem 0;
+    }
+
+    .toggle-label {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        cursor: pointer;
+    }
+
+    .toggle-label input[type="checkbox"] {
+        display: none;
+    }
+
+    .toggle-slider {
+        width: 60px;
+        height: 30px;
+        background: #ccc;
+        border-radius: 30px;
+        position: relative;
+        transition: background 0.3s;
+    }
+
+    .toggle-slider::after {
+        content: '';
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        background: white;
+        border-radius: 50%;
+        top: 2px;
+        left: 2px;
+        transition: transform 0.3s;
+    }
+
+    .toggle-label input[type="checkbox"]:checked + .toggle-slider {
+        background: var(--rose);
+    }
+
+    .toggle-label input[type="checkbox"]:checked + .toggle-slider::after {
+        transform: translateX(30px);
+    }
+
+    .toggle-text {
+        font-weight: bold;
+        color: var(--text-dark);
+    }
+
+    .music-info {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: var(--light-pink);
+        border-radius: 10px;
+    }
+
+    .music-info ol {
+        margin-left: 1.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .music-info code {
+        background: white;
+        padding: 0.2rem 0.5rem;
+        border-radius: 5px;
+        font-family: 'Courier New', monospace;
+    }
+
+    .info-box {
+        padding: 1rem;
+        background: var(--light-pink);
+        border-radius: 10px;
+        margin-top: 1rem;
+    }
+
+    .info-box p {
+        margin: 0.5rem 0;
+    }
+
+    .info-box code {
+        background: white;
+        padding: 0.2rem 0.5rem;
+        border-radius: 5px;
+        font-family: 'Courier New', monospace;
+    }
+
+    .version {
+        color: #999;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+    }
+</style>
+
+@code {
+    private bool musicEnabled = false;
+
+    private void ToggleMusic()
+    {
+        // Music toggle logic would go here
+        // For now, it's just a visual toggle
+    }
+}

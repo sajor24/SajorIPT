@@ -1,0 +1,35 @@
+@inject IJSRuntime JS
+
+<div class="music-player">
+    <button class="music-toggle" @onclick="ToggleMusic">
+        @if (isPlaying)
+        {
+            <span>🔊 Pause Music</span>
+        }
+        else
+        {
+            <span>🎵 Play Music</span>
+        }
+    </button>
+    <audio id="backgroundMusic" loop>
+        <source src="/music/beautiful-in-white.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+@code {
+    private bool isPlaying = false;
+
+    private async Task ToggleMusic()
+    {
+        if (isPlaying)
+        {
+            await JS.InvokeVoidAsync("eval", "document.getElementById('backgroundMusic').pause()");
+            isPlaying = false;
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("eval", "document.getElementById('backgroundMusic').play()");
+            isPlaying = true;
+        }
+    }
+}
