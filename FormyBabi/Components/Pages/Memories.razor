@@ -16,6 +16,7 @@
             <h3>Add a New Memory ✨</h3>
             <input type="text" @bind="newTitle" placeholder="Memory Title" class="input-field" />
             <textarea @bind="newContent" placeholder="Describe this special moment..." rows="5" class="textarea-field"></textarea>
+            <input type="url" @bind="newImageUrl" placeholder="Image URL (optional)" class="input-field" />
             <input type="date" @bind="newDate" class="input-field" />
             <div class="form-buttons">
                 <button class="btn-primary" @onclick="SaveMemory">Save Memory 💕</button>
@@ -29,6 +30,7 @@
     }
 
     <div class="memories-timeline">
+        <p>Total memories: @memories.Count</p>
         @foreach (var memory in memories)
         {
             <div class="memory-card">
@@ -56,6 +58,7 @@
     private bool showAddForm = false;
     private string newTitle = string.Empty;
     private string newContent = string.Empty;
+    private string newImageUrl = string.Empty;
     private DateTime newDate = DateTime.Now;
 
     protected override void OnInitialized()
@@ -71,11 +74,13 @@
             { 
                 Title = newTitle, 
                 Content = newContent, 
-                Date = newDate 
+                Date = newDate,
+                ImagePath = newImageUrl
             });
             memories = MemoryService.GetAllMemories();
             newTitle = string.Empty;
             newContent = string.Empty;
+            newImageUrl = string.Empty;
             newDate = DateTime.Now;
             showAddForm = false;
         }
@@ -86,6 +91,7 @@
         showAddForm = false;
         newTitle = string.Empty;
         newContent = string.Empty;
+        newImageUrl = string.Empty;
         newDate = DateTime.Now;
     }
 

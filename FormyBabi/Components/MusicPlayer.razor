@@ -1,4 +1,5 @@
 @inject IJSRuntime JS
+@rendermode InteractiveServer
 
 <div class="music-player">
     <button class="music-toggle" @onclick="ToggleMusic">
@@ -11,24 +12,50 @@
             <span>🎵 Play Music</span>
         }
     </button>
-    <audio id="backgroundMusic" loop>
-        <source src="/music/beautiful-in-white.mp3" type="audio/mpeg">
-    </audio>
 </div>
+
+<audio id="backgroundMusic" loop style="display: none;">
+    <source src="/music/panalangin.mp3" type="audio/mpeg">
+    <source src="/music/beautiful-in-white.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
 
 @code {
     private bool isPlaying = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("eval", @"
+                window.musicAudio = document.getElementById('backgroundMusic');
+                if (window.musicAudio) {
+                    window.musicAudio.addEventListener('play', () => console.log('Audio started'));
+                    window.musicAudio.addEventListener('pause', () => console.log('Audio paused'));
+                    window.musicAudio.addEventListener('error', (e) => console.log('Audio error:', e));
+                }
+            ");
+        }
+    }
 
     private async Task ToggleMusic()
     {
         if (isPlaying)
         {
-            await JS.InvokeVoidAsync("eval", "document.getElementById('backgroundMusic').pause()");
+            await JS.InvokeVoidAsync("eval", "if(window.musicAudio) window.musicAudio.pause()");
             isPlaying = false;
         }
         else
         {
-            await JS.InvokeVoidAsync("eval", "document.getElementById('backgroundMusic').play()");
+            await JS.InvokeVoidAsync("eval", @"
+                if(window.musicAudio) {
+                    window.musicAudio.play().then(() => {
+                        console.log('Play successful');
+                    }).catch(e => {
+                        console.log('Play failed:', e);
+                    });
+                }
+            ");
             isPlaying = true;
         }
     }
